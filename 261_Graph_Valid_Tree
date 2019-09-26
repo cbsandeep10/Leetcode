@@ -1,0 +1,24 @@
+class Solution:
+    def validTree(self, n: int, edges: List[List[int]]) -> bool:
+        visited = set()
+        visiting = set()
+        matrix = [[0 for _ in range(n)] for _ in range(n)]
+        for x, y in edges:
+            matrix[x][y] = matrix[y][x] = 1
+        
+        def dfs(node):
+            nonlocal visited, visiting
+            if node in visited:
+                return False
+            visited.add(node)
+            visiting.add(node)
+            child = [i for i, val in enumerate(matrix[node]) if val == 1 and i not in visited]
+            for i in child:
+                if i in visiting:
+                    return False
+                if not dfs(i):
+                    return False
+            visiting.remove(node)
+            return True
+        
+        return dfs(0) and len(visited) == n
