@@ -1,0 +1,22 @@
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        #backtracking
+        ans = []
+        def backtrack(result):
+            nonlocal candidates, target, ans
+            if sum(result) > target:
+                return
+            if sum(result) == target:
+                ans.append(result)
+                return
+            if not result:
+                somelist = candidates.copy()
+            else:
+                somelist = [i for i in candidates if i>= result[-1]]
+            for i in somelist:
+                backtrack(result+[i])
+        
+        
+        backtrack([])
+        return ans
+        
