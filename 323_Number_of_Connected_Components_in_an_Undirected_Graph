@@ -1,0 +1,26 @@
+class Solution:
+    def countComponents(self, n: int, edges: List[List[int]]) -> int:
+        visited = set()
+        graph = [[False for _ in range(n)] for _ in range(n)]
+        for x, y in edges:
+            graph[x][y] = graph[y][x] = True
+        
+        def dfs(node):
+            nonlocal graph, visited
+            if node in visited:
+                return
+            visited.add(node)
+            index = []
+            for i, val in enumerate(graph[node]):
+                if val and i not in visited:
+                    index.append(i)
+            for i in index:
+                if i not in visited:
+                    dfs(i)
+        
+        result = 0
+        for i in range(n):
+            if i not in visited:
+                dfs(i)
+                result += 1
+        return result
