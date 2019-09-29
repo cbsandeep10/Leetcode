@@ -1,0 +1,55 @@
+class Solution:
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        
+        ans = []
+        def check(board, i, j):
+            temp_i = i
+            temp_j = j
+            while i - 1 > -1 and j - 1 > -1:
+                if board[i-1][j-1]:
+                    return False
+                i -= 1
+                j -= 1
+            i = temp_i
+            j = temp_j
+            while i - 1 > -1 and j + 1 < n:
+                if board[i-1][j+1]:
+                    return False
+                i -= 1
+                j += 1
+            return True
+        
+        def convert(board):
+            string = []
+            for i in range(n):
+                some = ""
+                for j in range(n):
+                    if board[i][j]:
+                        some += "Q"
+                    else:
+                        some += "."
+                string.append(some)
+            return string
+        
+        def backtrack(board, i, placed):
+            if i == n:
+                print("----------")
+                for _ in range(n):
+                    print(board[_])
+                print("----------")
+                ans.append(convert(board))
+                return
+            if len(placed) == n:
+                return
+            
+            for j in range(n):
+                if j not in placed and check(board, i, j):
+                    board[i][j] = 1
+                    backtrack(board, i+1, placed+[j])
+                    board[i][j] = 0
+            
+            
+        board = [[0 for _ in range(n)] for _ in range(n)]
+        backtrack(board, 0, [])
+        return ans
+        
