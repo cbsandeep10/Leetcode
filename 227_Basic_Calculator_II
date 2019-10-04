@@ -1,0 +1,49 @@
+from collections import deque
+class Solution:
+    def calculate(self, s: str) -> int:
+        stack1 = deque([])
+        stack2 = deque([])
+        
+        def precedence(op1, op2):
+            if op1 in '*/':
+                return True
+            if op1 in '+-' and op2 in '+-':
+                return True
+            return False
+            
+            
+        def calculate(left, right, op):
+            left = int(left)
+            right = int(right)
+            if op == '+':
+                return left+right
+            if op == '-':
+                return left-right
+            if op == '*':
+                return left*right
+            if op == '/':
+                return left//right
+        
+        num = 0
+        for i in s:
+            if i in '*+/-':
+                stack1.append(num)
+                num = 0
+                while stack2 and precedence(stack2[-1], i):
+                    op = stack2.pop()
+                    right = stack1.pop()
+                    left = stack1.pop()
+                    result = calculate(left, right, op)
+                    stack1.append(result)
+                stack2.append(i)
+            elif i.isdigit():
+                num = num*10 + int(i)
+                
+        stack1.append(num)
+        while stack2:
+            op = stack2.pop()
+            right = stack1.pop()
+            left = stack1.pop()
+            result = calculate(left, right, op)
+            stack1.append(result)
+        return stack1[0]
