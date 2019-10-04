@@ -1,0 +1,68 @@
+from collections import deque
+class Solution:
+    def calculate(self, s: str) -> int:
+        
+        def precedence(op1, op2):
+            if op1 in '*/':
+                return True
+            if op1 in '+-' and op2 in '+-':
+                return True
+            return False
+        
+        def solve(left, right, op):
+            left = int(left)
+            right = int(right)
+            if op == '+':
+                return left + right
+            if op == '-':
+                return left - right
+            if op == '*':
+                return left * right
+            if op == '/':
+                return left//right
+        
+        def calc(s):
+            stack1 = deque([])
+            stack2 = deque([])
+            num = 0
+            for i in s:
+                if i in '+-/*':
+                    stack1.append(num)
+                    num = 0
+                    while stack2 and precedence(stack2[-1], i):
+                        right = stack1.pop()
+                        left = stack1.pop()
+                        op = stack2.pop()
+                        result = solve(left, right, op)
+                        stack1.append(result)
+                    stack2.append(i)
+                        
+                elif i != " ":
+                    num = num*10 + int(i)
+            stack1.append(num)
+            while stack2:
+                right = stack1.pop()
+                left = stack1.pop()
+                op = stack2.pop()
+                result = solve(left, right, op)
+                stack1.append(result)
+                
+            return str(stack1[-1])
+        
+            
+        stack = deque()
+        for i in s:
+            if i == ')':
+                string = []
+                while stack:
+                    string.append(stack.pop())
+                    if stack[-1] == '(':
+                        stack.pop()
+                        break
+                stack.append(calc(string[::-1]))
+            else:
+                stack.append(i) 
+        
+        return calc(stack)
+            
+        
