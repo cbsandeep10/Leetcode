@@ -1,0 +1,22 @@
+class Solution:
+    def maxSatisfied(self, customers: List[int], grumpy: List[int], X: int) -> int:
+        if len(customers) <= X:
+            return sum(customers)
+        left = 1
+        right = X
+        happy = 0
+        for i in range(len(customers)):
+            if not grumpy[i] or i < X:
+                happy += customers[i]
+        
+        result = happy
+        while right < len(customers):
+            if grumpy[left-1]:
+                happy -= customers[left-1]
+            if grumpy[right]:
+                happy += customers[right]
+            left += 1
+            right += 1 
+            result = max(result, happy)
+            
+        return result

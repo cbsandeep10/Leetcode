@@ -1,0 +1,23 @@
+class Solution:
+    def romanToInt(self, s: str) -> int:
+        if not s:
+            return 0
+        helper = {}
+        helper['I'] = 1
+        helper['V'] = 5
+        helper['X'] = 10
+        helper['L'] = 50
+        helper['C'] = 100
+        helper['D'] = 500
+        helper['M'] = 1000
+        
+        total = 0
+        prev = float('inf')
+        for i in s:
+            if helper[i] <= prev:
+                total += helper[i]
+            else:
+                total += helper[i] - 2*prev
+            prev = helper[i]
+        return total
+        
