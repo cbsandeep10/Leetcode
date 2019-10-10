@@ -1,0 +1,17 @@
+class Solution:
+    def maxProfitAssignment(self, difficulty: List[int], profit: List[int], worker: List[int]) -> int:
+        worker.sort()
+        helper = []
+        for i in range(len(profit)):
+            helper.append([difficulty[i], profit[i]])
+        helper.sort(key = lambda x:x[0])
+        left = 0
+        total = 0
+        maxProfit = 0
+        for work in worker:
+            while left < len(helper) and helper[left][0] <= work:
+                maxProfit = max(maxProfit, helper[left][1])
+                left += 1
+            total += maxProfit
+        return total
+        
