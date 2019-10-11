@@ -1,0 +1,20 @@
+class Solution:
+    def isValid(self, S: str) -> bool:
+        
+        valid = False
+        visited = set()
+        def recursive(string):
+            nonlocal valid
+            if string == "":
+                valid = True
+                return
+            if string in visited:
+                return
+            visited.add(string)
+            splits = string.split("abc")
+            recursive("".join(splits))
+            return
+        
+        recursive(S)
+        return valid
+        

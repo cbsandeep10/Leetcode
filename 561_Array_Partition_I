@@ -1,0 +1,5 @@
+class Solution:
+    def arrayPairSum(self, nums: List[int]) -> int:
+        nums.sort()
+        return sum([val for i, val in enumerate(nums) if not i%2])
+        
