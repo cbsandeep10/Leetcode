@@ -1,0 +1,8 @@
+class Solution:
+    def removeVowels(self, S: str) -> str:
+        new = ""
+        for i in S:
+            if i not in "aeiou":
+                new += i
+        return new
+        
