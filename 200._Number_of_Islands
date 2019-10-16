@@ -1,0 +1,33 @@
+class Solution(object):
+    def numIslands(self, grid):
+        """
+        :type grid: List[List[str]]
+        :rtype: int
+        """
+        if grid == []:
+            return 0
+        self.row = len(grid)
+        self.col = len(grid[0])
+        self.foo = [[False for i in range(self.col)] for j in range(self.row)]
+        count = 0
+        def islands(grid, r, c):
+            self.foo[r][c] = True
+            if grid[r][c] == "0":
+                return
+            if r + 1 < self.row and (not self.foo[r+1][c]):
+                islands(grid, r + 1, c)
+            if c + 1 < self.col and (not self.foo[r][c+1]):
+                islands(grid, r, c + 1)
+            if r - 1 >= 0 and (not self.foo[r-1][c]):
+                islands(grid, r - 1, c)
+            if c - 1 >= 0 and (not self.foo[r][c-1]):
+                islands(grid, r, c - 1)
+            
+        
+        for i in range(self.row):
+            for j in range(self.col):
+                if (not self.foo[i][j]) and grid[i][j] == "1":
+                    islands(grid, i ,j)
+                    count += 1
+        return count
+                
